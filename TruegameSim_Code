@@ -1,0 +1,157 @@
+def truegamesim(obp1,obp2):
+
+    BBtotal1=[]
+    B1total1=[]
+    B2total1=[]
+    B3total1=[]
+    HRtotal1=[]
+    LOBtotal1=[]
+
+    BBtotal2=[]
+    B1total2=[]
+    B2total2=[]
+    B3total2=[]
+    HRtotal2=[]
+    LOBtotal2=[]
+
+    r1=0 #team 1 runs
+    r2=0 #team 2 runs
+
+    scoreboard1=gameboard(obp1) #runs team 1 gameboard (first 8 innings)
+    scoreboard2=gameboard(obp2) #runs team 2 gameboard (first 8 innings)
+
+    rg1=scoreboard1[0] #runs for team 1
+    rg2=scoreboard2[0] #runs for team 2
+    h1=scoreboard1[1] #hits team 1
+    h2=scoreboard2[1] #hits team 2
+
+    #total up offensive stats for team 1
+    BBt1=scoreboard1[2]
+    B1t1=scoreboard1[3]
+    B2t1=scoreboard1[4]
+    B3t1=scoreboard1[5]
+    HRt1=scoreboard1[6]
+    BBtotal1=BBtotal1+[BBt1]
+    B1total1=B1total1+[B1t1]
+    B2total1=B2total1+[B2t1]
+    B3total1=B3total1+[B3t1]
+    HRtotal1=HRtotal1+[HRt1]
+    LOBt1=scoreboard1[7]
+    LOBtotal1=LOBtotal1+[LOBt1]
+
+    #total offensive stats for team 2
+    BBt2=scoreboard2[2]
+    B1t2=scoreboard2[3]
+    B2t2=scoreboard2[4]
+    B3t2=scoreboard2[5]
+    HRt2=scoreboard2[6]
+    BBtotal2=BBtotal2+[BBt2]
+    B1total2=B1total2+[B1t2]
+    B2total2=B2total2+[B2t2]
+    B3total2=B3total2+[B3t2]
+    HRtotal2=HRtotal2+[HRt2]
+    LOBt2=scoreboard2[7]
+    LOBtotal2=LOBtotal2+[LOBt2]
+
+    tw1=0 #total wins team 1
+    tw2=0 #total wins team 2
+
+    i=9 #sets an index that will come in play later
+    sb=[1,2,3,4,5,6,7,8,9] #sets up our inning list
+
+    hrl1=inning(obp1) #call the inning to run
+    ri1=hrl1[0] #index out the runs
+    r1=ri1 #makes the road team (first listed) have their 9th AB
+    rg1=rg1+[r1] #adds their runs to the run list
+    hi1=hrl1[1] #hits from inning
+    h1=h1+[hi1] #add to hit list
+
+    #team 1 top offensive stats for top of 9th
+    BBt1=hrl1[2]
+    B1t1=hrl1[3]
+    B2t1=hrl1[4]
+    B3t1=hrl1[5]
+    HRt1=hrl1[6]
+    BBtotal1=BBtotal1+[BBt1]
+    B1total1=B1total1+[B1t1]
+    B2total1=B2total1+[B2t1]
+    B3total1=B3total1+[B3t1]
+    HRtotal1=HRtotal1+[HRt1]
+    LOBt1=hrl1[7]
+    LOBtotal1=LOBtotal1+[LOBt1]
+
+    #runs if needed
+    if sum(rg1)>=sum(rg2): #keeps the bottom of 9th optional
+        hrl2=inning(obp2) #call the inning for team two
+        ri2=hrl2[0] #index out the runs
+        r2=ri2 #if played runs the 9th for team 2 (home team)
+        rg2=rg2+[r2] #adds their runs to the runs list
+        hi2=hrl2[1] #hits from inning
+        h2=h2+[hi2] #add to hit list
+
+        #team 2 offensive statistics
+        BBt2=hrl2[2]
+        B1t2=hrl2[3]
+        B2t2=hrl2[4]
+        B3t2=hrl2[5]
+        HRt2=hrl2[6]
+        BBtotal2=BBtotal2+[BBt2]
+        B1total2=B1total2+[B1t2]
+        B2total2=B2total2+[B2t2]
+        B3total2=B3total2+[B3t2]
+        HRtotal2=HRtotal2+[HRt2]
+        LOBt2=hrl2[7]
+        LOBtotal2=LOBtotal2+[LOBt2]
+
+    #runs as long as run totals are equal
+    while sum(rg1) == sum(rg2): #creates an extra inning parameter
+        i=i+1 #index that adds 1 to the already made inning list
+        hrl1=inning(obp1) #an extra inning for team 1
+        hrl2=inning(obp2) #an extra inning for team 2
+        ri1=hrl1[0] #index runs for team 1
+        ri2=hrl2[0] #index runs for team 2
+        r1=ri1
+        r2=ri2
+        rg1=rg1+[r1] #adds the runs to the run list for both teams
+        rg2=rg2+[r2]
+        sb=sb+[i] #adds to the inning list
+
+        hi1=hrl1[1] #takes the index for hits team 1
+        h1=h1+[hi1] #extra inning hits team 1 (adds to list)
+        hi2=hrl2[1] #takes the index hits team 2
+        h2=h2+[hi2] #extra inning hits team 2 (adds to list)
+
+        #total up statistics for each team
+        BBt1=hrl1[2]
+        B1t1=hrl1[3]
+        B2t1=hrl1[4]
+        B3t1=hrl1[5]
+        HRt1=hrl1[6]
+        BBtotal1=BBtotal1+[BBt1]
+        B1total1=B1total1+[B1t1]
+        B2total1=B2total1+[B2t1]
+        B3total1=B3total1+[B3t1]
+        HRtotal1=HRtotal1+[HRt1]
+        LOBt1=hrl1[7]
+        LOBtotal1=LOBtotal1+[LOBt1]
+
+        BBt2=hrl2[2]
+        B1t2=hrl2[3]
+        B2t2=hrl2[4]
+        B3t2=hrl2[5]
+        HRt2=hrl2[6]
+        BBtotal2=BBtotal2+[BBt2]
+        B1total2=B1total2+[B1t2]
+        B2total2=B2total2+[B2t2]
+        B3total2=B3total2+[B3t2]
+        HRtotal2=HRtotal2+[HRt2]
+        LOBt2=hrl2[7]
+        LOBtotal2=LOBtotal2+[LOBt2]
+
+    #gives us a returnable value to analyze over multiple games
+    if sum(rg1)>sum(rg2): #team 1 win
+        tw = [1,sum(rg1),sum(BBtotal1),sum(B1total1),sum(B2total1),sum(B3total1),sum(HRtotal1),sum(LOBtotal1),sum(rg2),sum(BBtotal2),sum(B1total2),sum(B2total2),sum(B3total2),sum(HRtotal2),sum(LOBtotal2)]
+    else: #team 2 win
+        tw = [2,sum(rg1),sum(BBtotal1),sum(B1total1),sum(B2total1),sum(B3total1),sum(HRtotal1),sum(LOBtotal1),sum(rg2),sum(BBtotal2),sum(B1total2),sum(B2total2),sum(B3total2),sum(HRtotal2),sum(LOBtotal2)]
+
+    return tw
