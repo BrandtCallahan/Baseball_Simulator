@@ -1,0 +1,103 @@
+def inning(obp):
+
+    o=0 #outs start at 0
+    atbat=[] #ties together the OBP and SLG into a pair to represent each hitter
+    abl=[] #atbat list
+
+    aPOSlist=[0,0,0] #start with nobody on
+    POSLIST=[] #list of runners moving around bases
+    SLGlist=[] #list of random SLG values for each hitter
+    obplist=[] #list of random OBP values for each hitter
+
+    #percantages of occerance of each type of hit
+    walk=0.15     #15%
+    single=0.60   #45%
+    double=0.82   #22%
+    triple=0.88   #6%
+    homer=1       #12%
+
+    ht=0 #hit total
+    rt=0 #run total
+    rs=0 #run scored
+    rlist=[] #list of runs and when/how scored
+    LOB=0 #men left on base
+
+    walkt=0 #walk total
+    singlet=0 #single total
+    doublet=0 #double total
+    triplet=0 #triple total
+    homerunt=0 #homerun total
+
+    atbatlist=[] #list the atbat outcomes in order
+    off=[] #list of offensive stats
+
+    while o < 3: #inning continues as long as there are less than 3 outs
+
+        x=uniform(0,1) #create the comparable OBP value
+        abSLG=uniform(0,1) #create the SLG % value
+
+        atbat=[x,abSLG] #pairs up the OBP (hit/no hit) and SLG (hit type)
+        abl=abl+[atbat] #list the hits in order of occurance
+        abOBP=atbat[0]
+        SLG=atbat[1]
+
+        aPOSlist #return the previous baserunner list
+
+        if abOBP <= obp:
+            if SLG <= walk: #walk liklihood
+                y=0
+                h=0 #walk(BB)/HBP
+                walkt=walkt+1
+                atbatlist=atbatlist+["walk"]
+                #aPOSlist=[1,0,0]
+            elif SLG <= single and SLG > walk: #single liklihood
+                y=0
+                h=1 #single
+                singlet=singlet+1
+                atbatlist=atbatlist+["single"]
+                #aPOSlist=[1,0,0]
+            elif SLG <= double and SLG > single: #double liklihood
+                y=0
+                h=1 #double
+                doublet=doublet+1
+                atbatlist=atbatlist+["double"]
+                #aPOSlist=[0,1,0]
+            elif SLG <= triple and SLG > double: #triple liklihood
+                y=0
+                h=1 #triple
+                triplet=triplet+1
+                atbatlist=atbatlist+["triple"]
+                #aPOSlist=[0,0,1]
+            elif SLG <= homer and SLG > triple: #homerun liklihood
+                y=0
+                h=1
+                atbatlist=atbatlist+["homerun"]
+                #aPOSlist=[0,0,0]
+                homerunt=homerunt+1
+        elif abOBP > obp: #obp is set up outside of the loop
+            y = 1 #add an out
+            h = 0 #since out, no hit
+            atbatlist=atbatlist+["out"]
+            if POSLIST==[]:
+                aPOSlist=[0,0,0]
+                rs=0
+            else:
+                aPOSlist=POSLIST[-1] #return the previous baserunner list
+                rs=0
+
+        if abOBP <= obp:
+            baserun=baserunning(aPOSlist,SLG)
+            aPOSlist=baserun[0] #index out where players are on base shown in list form (i.e. [1,0,0] = man on first)
+            rs=baserun[1] #index out the runs scored
+
+        POSLIST=POSLIST+[aPOSlist] #creates a list to keep track of where runners are on base after each new atbat
+
+
+        rlist=rlist+[rs] #list of runs scoring
+        LOB=sum(POSLIST[-1])
+        rt=rt+rs #run total
+        ht=ht+h #hit total
+        o=o+y #out total
+
+    off=[rt,ht,walkt,singlet,doublet,triplet,homerunt,LOB]
+    return off
