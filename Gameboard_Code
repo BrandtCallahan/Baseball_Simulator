@@ -1,0 +1,60 @@
+def gameboard(obp):
+    sbi=[] #scoreboard inning
+    sbr=[] #scoreboard runs
+    sbh=[] #scoreboard on base
+    board=[] #final output
+    tr=0 #total runs
+    th=0 #total hits
+
+    BB=[]
+    B1=[]
+    B2=[]
+    B3=[]
+    HR=[]
+    LOB=[]
+
+    BBtotal=0
+    B1total=0
+    B2total=0
+    B3total=0
+    HRtotal=0
+    LOBtotal=0
+
+    for k in range(1,9):
+        hrl=inning(obp) #hrl = hit/run list
+        r=hrl[0] #index the runs
+        h=hrl[1] #index the amount on base
+
+        #types of hits (index out)
+        bb=hrl[2]
+        b1=hrl[3]
+        b2=hrl[4]
+        b3=hrl[5]
+        hr=hrl[6]
+
+        #runners left on base (index out)
+        lob=hrl[7]
+
+        #list of stats
+        BB=BB+[bb]
+        B1=B1+[b1]
+        B2=B2+[b2]
+        B3=B3+[b3]
+        HR=HR+[hr]
+        LOB=LOB+[lob]
+
+        #total up the lists of stats
+        BBtotal=sum(BB)
+        B1total=sum(B1)
+        B2total=sum(B2)
+        B3total=sum(B3)
+        HRtotal=sum(HR)
+        LOBtotal=sum(LOB)
+
+        tr=tr+r #totals up how many runs scored
+        th=th+h #totals up hits
+        sbi=sbi+[k] #inning list to get horizontal
+        sbr=sbr+[r] #run list to get horizontal
+        sbh=sbh+[h] #hit list
+        board=[sbr,sbh,BBtotal,B1total,B2total,B3total,HRtotal,LOBtotal]
+    return board
