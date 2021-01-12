@@ -1,0 +1,125 @@
+def playoff7(teamname1,teamname2,obp1,obp2):
+
+    #team 2 (teamname2 and obp2) is the team with better record
+      #team will have "home field advantage"
+    
+    team1=0
+    team2=0
+    team1win=0
+    team2win=0
+    series=[]
+
+#team1 Visitor
+#team2 Home
+    print("Game 1")
+    game1=truegame1(obp1,obp2)
+    print(game1)
+    if game1[0] == 1:
+        team1 = 1
+        team2 = 0
+    elif game1[1] == 1:
+        team2 = 1
+        team1 = 0
+    team1win = team1
+    team2win = team2
+    series = [team2win] + [team1win]
+
+#team1 Visitor
+#team2 Home
+    print("Game 2")
+    game2=truegame1(obp1,obp2)
+    print(game2)
+    if game2[0] == 1:
+        team1 = 1
+        team2 = 0
+    elif game2[1] == 1:
+        team2 = 1
+        team1 = 0
+    team1win = team1win + team1
+    team2win = team2win + team2
+    series = [team2win] + [team1win]
+
+#team1 Home
+#team2 Visitor
+    print("Game 3")
+    game3=truegame1(obp2,obp1)
+    print(game3)
+    if game3[0] == 1:
+        team2 = 1
+        team1 = 0
+    elif game3[1] == 1:
+        team1 = 1
+        team2 = 0
+    team1win = team1win + team1
+    team2win = team2win + team2
+    series = [team2win] + [team1win]
+
+#team1 Home
+#team2 Visitor
+    print("Game 4")
+    game3=truegame1(obp2,obp1)
+    print(game3)
+    if game3[0] == 1:
+        team2 = 1
+        team1 = 0
+    elif game3[1] == 1:
+        team1 = 1
+        team2 = 0
+    team1win = team1win + team1
+    team2win = team2win + team2
+    series = [team2win] + [team1win]
+
+#team1 Home
+#team2 Visitor
+#begin looking to see if series is over
+    if series[0] < 4 and series[1] < 4:
+        print("Game 5")
+        game5=truegame1(obp2,obp1)
+        print(game5)
+        if game5[0] == 1:
+            team2 = 1
+            team1 = 0
+        elif game5[1] == 1:
+            team1 = 1
+            team2 = 0
+        team1win = team1win + team1
+        team2win = team2win + team2
+        series = [team2win] + [team1win]
+
+#team1 Visitor
+#team2 Home
+    if series[0] < 4 and series[1] < 4:
+        print("Game 6")
+        game6=truegame1(obp1,obp2)
+        print(game6)
+        if game6[0] == 1:
+            team2 = 0
+            team1 = 1
+        elif game6[1] == 1:
+            team1 = 0
+            team2 = 1
+        team1win = team1win + team1
+        team2win = team2win + team2
+        series = [team2win] + [team1win]
+
+#team1 Visitor
+#team2 Home
+    if series[0] < 4 and series[1] < 4:
+        print("Game 7")
+        game7=truegame1(obp1,obp2)
+        print(game7)
+        if game7[0] == 1:
+            team2 = 0
+            team1 = 1
+        elif game7[1] == 1:
+            team1 = 0
+            team2 = 1
+        team1win = team1win + team1
+        team2win = team2win + team2
+        series = [team2win] + [team1win]
+
+    if series[0] > series[1]:
+        print("The",teamname2,"won",series,"in",sum(series),"games.")
+    elif series[1] > series[0]:
+        print("The",teamname1,"won",series,"in",sum(series),"games.")
+
