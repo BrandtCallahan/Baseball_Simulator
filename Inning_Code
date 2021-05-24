@@ -1,5 +1,8 @@
-def inning(obp):
+def inning(obp,whip):
 
+    #obp=team[0]
+    #whip=team[1]
+    
     o=0 #outs start at 0
     atbat=[] #ties together the OBP and SLG into a pair to represent each hitter
     abl=[] #atbat list
@@ -9,12 +12,24 @@ def inning(obp):
     SLGlist=[] #list of random SLG values for each hitter
     obplist=[] #list of random OBP values for each hitter
 
-    #percantages of occerance of each type of hit
-    walk=0.15     #15%
-    single=0.60   #45%
-    double=0.82   #22%
-    triple=0.88   #6%
-    homer=1       #12%
+    #percantages of occurance of each type of hit
+    
+    #single=0.62   #83%(College)    62%(MLB)
+    #double=0.82   #11%             20%
+    #triple=0.84   #2%              2%
+    #homer=1       #4%              16%
+    
+    single1=0.24
+    triple1=0.25
+    double1=0.34
+    single2=0.56
+    homer1=0.62
+    single3=0.74
+    triple2=0.75
+    homer2=0.85
+    double2=0.96
+    single4=1
+    
 
     ht=0 #hit total
     rt=0 #run total
@@ -27,66 +42,97 @@ def inning(obp):
     doublet=0 #double total
     triplet=0 #triple total
     homerunt=0 #homerun total
+    
+    strikeoutt=0 #strikeout total
+    groundoutt=0 #groundout total
+    flyoutt=0 #flyout total
 
+    pitchcount=0
     atbatlist=[] #list the atbat outcomes in order
     off=[] #list of offensive stats
 
     while o < 3: #inning continues as long as there are less than 3 outs
 
-        x=uniform(0,1) #create the comparable OBP value
+        AB=AtBat(obp,whip) #at bat strikeout,groundout,flyout,walk,hit,pitchcount
+        pitchnum=AB[5]
+        
+        #x=uniform(0,1) #create the comparable OBP value
         abSLG=uniform(0,1) #create the SLG % value
 
-        atbat=[x,abSLG] #pairs up the OBP (hit/no hit) and SLG (hit type)
-        abl=abl+[atbat] #list the hits in order of occurance
-        abOBP=atbat[0]
-        SLG=atbat[1]
+        atbat=[AB[3],AB[4],abSLG] #pairs up the OBP (hit/no hit) and SLG (hit type)
+        #abl=abl+[atbat] #list the hits in order of occurance
+        abWALK=atbat[0]
+        abHIT=atbat[1]
+        SLG=atbat[2]
 
         aPOSlist #return the previous baserunner list
 
-        if abOBP <= obp:
-            if SLG <= walk: #walk liklihood
-                y=0
-                h=0 #walk(BB)/HBP
-                walkt=walkt+1
-                atbatlist=atbatlist+["walk"]
-                #aPOSlist=[1,0,0]
-            elif SLG <= single and SLG > walk: #single liklihood
+        if abWALK == 1:
+            y=0
+            h=0 #walk(BB)/HBP
+            walkt=walkt+1
+            atbatlist=atbatlist+["walk"]
+            #aPOSlist=[1,0,0]
+        elif abHIT == 1:
+            if (SLG <= single1) or (SLG > double1 and SLG <= single2) or (SLG > homer1 and SLG <= single3) or (SLG > homer2) : #single liklihood
                 y=0
                 h=1 #single
                 singlet=singlet+1
                 atbatlist=atbatlist+["single"]
                 #aPOSlist=[1,0,0]
-            elif SLG <= double and SLG > single: #double liklihood
+            elif (SLG > triple1 and SLG <= double1) or (SLG > homer2 and SLG <= double2): #double liklihood
                 y=0
                 h=1 #double
                 doublet=doublet+1
                 atbatlist=atbatlist+["double"]
                 #aPOSlist=[0,1,0]
-            elif SLG <= triple and SLG > double: #triple liklihood
+            elif (SLG > single1 and SLG <= triple1) or (SLG > single3 and SLG <= triple2): #triple liklihood
                 y=0
                 h=1 #triple
                 triplet=triplet+1
                 atbatlist=atbatlist+["triple"]
                 #aPOSlist=[0,0,1]
-            elif SLG <= homer and SLG > triple: #homerun liklihood
+            elif (SLG > single2 and SLG <= homer1) or (SLG > triple2 and SLG <= homer2): #homerun liklihood
                 y=0
                 h=1
                 atbatlist=atbatlist+["homerun"]
                 #aPOSlist=[0,0,0]
                 homerunt=homerunt+1
-        elif abOBP > obp: #obp is set up outside of the loop
-            y = 1 #add an out
+        elif abWALK == 0 and abHIT == 0: #obp is set up outside of the loop
             h = 0 #since out, no hit
-            atbatlist=atbatlist+["out"]
-            if POSLIST==[]:
-                aPOSlist=[0,0,0]
-                rs=0
-            else:
-                aPOSlist=POSLIST[-1] #return the previous baserunner list
-                rs=0
+            if AB[0] == 1:
+                y = 1 #add an out
+                strikeoutt=strikeoutt+1
+                atbatlist=atbatlist+['strikeout']
+                if POSLIST==[]:
+                    aPOSlist=[0,0,0]
+                    rs=0
+                else:
+                    aPOSlist=POSLIST[-1] #return the previous baserunner list
+                    rs=0
+            elif AB[1] == 1:
+                y = 1 #add an out
+                groundoutt=groundoutt+1
+                atbatlist=atbatlist+['groundout']
+                if POSLIST==[]:
+                    aPOSlist=[0,0,0]
+                    rs=0
+                else:
+                    aPOSlist=POSLIST[-1] #return the previous baserunner list
+                    rs=0
+            elif AB[2] == 1:
+                y = 1 #add an out
+                flyoutt=flyoutt+1
+                atbatlist=atbatlist+['flyout']
+                if POSLIST==[]:
+                    aPOSlist=[0,0,0]
+                    rs=0
+                else:
+                    aPOSlist=POSLIST[-1] #return the previous baserunner list
+                    rs=0
 
-        if abOBP <= obp:
-            baserun=baserunning(aPOSlist,SLG)
+        if abWALK == 1 or abHIT == 1:
+            baserun=baserunning(aPOSlist,atbat)
             aPOSlist=baserun[0] #index out where players are on base shown in list form (i.e. [1,0,0] = man on first)
             rs=baserun[1] #index out the runs scored
 
@@ -98,6 +144,8 @@ def inning(obp):
         rt=rt+rs #run total
         ht=ht+h #hit total
         o=o+y #out total
+        pitchcount=pitchcount+pitchnum
 
-    off=[rt,ht,walkt,singlet,doublet,triplet,homerunt,LOB]
+    off=[rt,ht,walkt,singlet,doublet,triplet,homerunt,LOB,strikeoutt,groundoutt,flyoutt,pitchcount]
+
     return off
