@@ -1,141 +1,152 @@
-def baserunning(aPOSlist,SLG):
+def inning(obp,whip):
 
-    walk=0.15
-    single=0.60
-    double=0.82
-    triple=0.88
-    homer=1
-    basesruns=[]
+    #obp=team[0]
+    #whip=team[1]
+    
+    o=0 #outs start at 0
+    atbat=[] #ties together the OBP and SLG into a pair to represent each hitter
+    abl=[] #atbat list
 
-    if aPOSlist==[0,0,0]:
-        if SLG<=single: #nobody on and a single/walk
-            POSlist=[1,0,0]
-            rs=0
-        elif SLG<=double and SLG>single: #nobody on and a double
-            POSlist=[0,1,0]
-            rs=0
-        elif SLG<=triple and SLG>double: #nobody on and a triple
-            POSlist=[0,0,1]
-            rs=0
-        elif SLG<=homer and SLG>triple: #nobody on and a homerun
-            POSlist=[0,0,0]
-            rs=1
+    aPOSlist=[0,0,0] #start with nobody on
+    POSLIST=[] #list of runners moving around bases
+    SLGlist=[] #list of random SLG values for each hitter
+    obplist=[] #list of random OBP values for each hitter
 
-    elif aPOSlist==[1,0,0]: 
-        if SLG<=single: #man on first and single/walk
-            POSlist=[1,1,0]
-            rs=0
-        elif SLG<=double and SLG>single: #man on first and double
-            POSlist=[0,1,1]
-            rs=0
-        elif SLG<=triple and SLG>double: #man on first and triple
-            POSlist=[0,0,1]
-            rs=1
-        elif SLG<=homer and SLG>triple: #man on first and homerun
-            POSlist=[0,0,0]
-            rs=2
+    #percantages of occurance of each type of hit
+    
+    single=0.62   #83%  62%(MLB)
+    double=0.82   #11%  20%
+    triple=0.84   #2%   2%
+    homer=1       #4%   16%
+    
+    #if you want random intervals for types of hits
+    #single1=0.24
+    #triple1=0.25
+    #double1=0.34
+    #single2=0.56
+    #homer1=0.62
+    #single3=0.74
+    #triple2=0.75
+    #homer2=0.85
+    #double2=0.96
+    #single4=1
+    
 
-    elif aPOSlist==[1,1,0]:
-        if SLG<=walk: #man on first and second and walk
-            POSlist=[1,1,1]
-            rs=0
-        elif SLG<=single and SLG>walk: #man on first and second and single
-            POSlist=[1,1,0]
-            rs=1
-        elif SLG<=double and SLG>single: #man on first and second and double
-            POSlist=[0,1,1]
-            rs=1
-        elif SLG<=triple and SLG>double: #man on first and second and triple
-            POSlist=[0,0,1]
-            rs=2
-        elif SLG<=homer and SLG>triple: #man on first and second and homerun
-            POSlist=[0,0,0]
-            rs=3
+    ht=0 #hit total
+    rt=0 #run total
+    rs=0 #run scored
+    rlist=[] #list of runs and when/how scored
+    LOB=0 #men left on base
 
-    elif aPOSlist==[1,0,1]:
-        if SLG<=walk: #man on first and third and walk
-            POSlist=[1,1,1]
-            rs=0
-        elif SLG<=single and SLG>walk: #man on first and third and single
-            POSlist=[1,1,0]
-            rs=1
-        elif SLG<=double and SLG>single: #man on first and third and double
-            POSlist=[0,1,1]
-            rs=1
-        elif SLG<=triple and SLG>double: #man on first and third and triple
-            POSlist=[0,0,1]
-            rs=2
-        elif SLG<=homer and SLG>triple: #man on first and third and homerun
-            POSlist=[0,0,0]
-            rs=3
+    walkt=0 #walk total
+    singlet=0 #single total
+    doublet=0 #double total
+    triplet=0 #triple total
+    homerunt=0 #homerun total
+    
+    strikeoutt=0 #strikeout total
+    groundoutt=0 #groundout total
+    flyoutt=0 #flyout total
 
-    elif aPOSlist==[0,1,0]:
-        if SLG<=walk: #man on second and walk
-            POSlist=[1,1,0]
-            rs=0
-        elif SLG<=single and SLG>walk: #man on second and single
-            POSlist=[1,0,1]
-            rs=0
-        elif SLG<=double and SLG>single: #man on second and double
-            POSlist=[0,1,0]
-            rs=1
-        elif SLG<=triple and SLG>double: #man on second and triple
-            POSlist=[0,0,1]
-            rs=2
-        elif SLG<=homer and SLG>triple: #man on second and homerun
-            POSlist=[0,0,0]
-            rs=3
+    pitchcount=0
+    atbatlist=[] #list the atbat outcomes in order
+    off=[] #list of offensive stats
 
-    elif aPOSlist==[0,1,1]:
-        if SLG<=walk: #man on second and third and walk
-            POSlist=[1,1,1]
-            rs=0
-        elif SLG<=single and SLG>walk: #man on second and third and single
-            POSlist=[1,0,1]
-            rs=1
-        elif SLG<=double and SLG>single: #man on second and third and double
-            POSlist=[0,1,0]
-            rs=2
-        elif SLG<=triple and SLG>double: #man on second and third and triple
-            POSlist=[0,0,1]
-            rs=2
-        elif SLG<=homer and SLG>triple: #man on second and third and homerun
-            POSlist=[0,0,0]
-            rs=3
+    while o < 3: #inning continues as long as there are less than 3 outs
 
-    if aPOSlist==[0,0,1]:
-        if SLG<=walk: #man on third and walk
-            POSlist=[1,0,1]
-            rs=0
-        elif SLG<=single and SLG>walk: #man on third and single
-            POSlist=[1,0,0]
-            rs=1
-        elif SLG<=double and SLG>single: #man on third and double
-            POSlist=[0,1,0]
-            rs=1
-        elif SLG<=triple and SLG>double: #man on third and triple
-            POSlist=[0,0,1]
-            rs=1
-        elif SLG<=homer and SLG>triple: #man on third and homerun
-            POSlist=[0,0,0]
-            rs=2
+        AB=AtBat(obp,whip) #at bat strikeout,groundout,flyout,walk,hit,pitchcount
+        pitchnum=AB[5]
+        
+        #x=uniform(0,1) #create the comparable OBP value
+        abSLG=uniform(0,1) #create the SLG % value
 
-    if aPOSlist==[1,1,1]:
-        if SLG<=walk: #bases loaded and walk
-            POSlist=[1,1,1]
-            rs=1
-        elif SLG<=single and SLG>walk: #bases loaded and single
-            POSlist=[1,1,0]
-            rs=2
-        elif SLG<=double and SLG>single: #bases loaded and double
-            POSlist=[0,1,1]
-            rs=2
-        elif SLG<=triple and SLG>double: #bases loaded and triple
-            POSlist=[0,0,1]
-            rs=3
-        elif SLG<=homer and SLG>triple: #bases loaded and homerun
-            POSlist=[0,0,0]
-            rs=4
+        atbat=[AB[3],AB[4],abSLG] #pairs up the OBP (hit/no hit) and SLG (hit type)
+        #abl=abl+[atbat] #list the hits in order of occurance
+        abWALK=atbat[0]
+        abHIT=atbat[1]
+        SLG=atbat[2]
 
-    basesruns=[POSlist,rs]
-    return basesruns
+        aPOSlist #return the previous baserunner list
+
+        if abWALK == 1:
+            y=0
+            h=0 #walk(BB)/HBP
+            walkt=walkt+1
+            atbatlist=atbatlist+["walk"]
+            #aPOSlist=[1,0,0]
+        elif abHIT == 1:
+            if (SLG <= single1) or (SLG > double1 and SLG <= single2) or (SLG > homer1 and SLG <= single3) or (SLG > homer2) : #single liklihood
+                y=0
+                h=1 #single
+                singlet=singlet+1
+                atbatlist=atbatlist+["single"]
+                #aPOSlist=[1,0,0]
+            elif (SLG > triple1 and SLG <= double1) or (SLG > homer2 and SLG <= double2): #double liklihood
+                y=0
+                h=1 #double
+                doublet=doublet+1
+                atbatlist=atbatlist+["double"]
+                #aPOSlist=[0,1,0]
+            elif (SLG > single1 and SLG <= triple1) or (SLG > single3 and SLG <= triple2): #triple liklihood
+                y=0
+                h=1 #triple
+                triplet=triplet+1
+                atbatlist=atbatlist+["triple"]
+                #aPOSlist=[0,0,1]
+            elif (SLG > single2 and SLG <= homer1) or (SLG > triple2 and SLG <= homer2): #homerun liklihood
+                y=0
+                h=1
+                atbatlist=atbatlist+["homerun"]
+                #aPOSlist=[0,0,0]
+                homerunt=homerunt+1
+        elif abWALK == 0 and abHIT == 0: #obp is set up outside of the loop
+            h = 0 #since out, no hit
+            if AB[0] == 1:
+                y = 1 #add an out
+                strikeoutt=strikeoutt+1
+                atbatlist=atbatlist+['strikeout']
+                if POSLIST==[]:
+                    aPOSlist=[0,0,0]
+                    rs=0
+                else:
+                    aPOSlist=POSLIST[-1] #return the previous baserunner list
+                    rs=0
+            elif AB[1] == 1:
+                y = 1 #add an out
+                groundoutt=groundoutt+1
+                atbatlist=atbatlist+['groundout']
+                if POSLIST==[]:
+                    aPOSlist=[0,0,0]
+                    rs=0
+                else:
+                    aPOSlist=POSLIST[-1] #return the previous baserunner list
+                    rs=0
+            elif AB[2] == 1:
+                y = 1 #add an out
+                flyoutt=flyoutt+1
+                atbatlist=atbatlist+['flyout']
+                if POSLIST==[]:
+                    aPOSlist=[0,0,0]
+                    rs=0
+                else:
+                    aPOSlist=POSLIST[-1] #return the previous baserunner list
+                    rs=0
+
+        if abWALK == 1 or abHIT == 1:
+            baserun=baserunning(aPOSlist,atbat)
+            aPOSlist=baserun[0] #index out where players are on base shown in list form (i.e. [1,0,0] = man on first)
+            rs=baserun[1] #index out the runs scored
+
+        POSLIST=POSLIST+[aPOSlist] #creates a list to keep track of where runners are on base after each new atbat
+
+
+        rlist=rlist+[rs] #list of runs scoring
+        LOB=sum(POSLIST[-1])
+        rt=rt+rs #run total
+        ht=ht+h #hit total
+        o=o+y #out total
+        pitchcount=pitchcount+pitchnum
+
+    off=[rt,ht,walkt,singlet,doublet,triplet,homerunt,LOB,strikeoutt,groundoutt,flyoutt,pitchcount]
+
+    return off
