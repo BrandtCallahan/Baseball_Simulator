@@ -1,5 +1,13 @@
-def simulation(obp1,obp2,n):
+def simulation(n,team1,team2):
 
+    team1name=team1[2]
+    team2name=team2[2]
+    
+    obp1=team1[0]
+    whip1=team1[1]
+    obp2=team2[0]
+    whip2=team2[1]
+    
     RUNtotal1=[]
     BBtotal1=[]
     B1total1=[]
@@ -7,6 +15,10 @@ def simulation(obp1,obp2,n):
     B3total1=[]
     HRtotal1=[]
     LOBtotal1=[]
+    Ktotal1=[]
+    GOtotal1=[]
+    FOtotal1=[]
+    PCtotal1=[]
 
     RUNtotal2=[]
     BBtotal2=[]
@@ -15,6 +27,10 @@ def simulation(obp1,obp2,n):
     B3total2=[]
     HRtotal2=[]
     LOBtotal2=[]
+    Ktotal2=[]
+    GOtotal2=[]
+    FOtotal2=[]
+    PCtotal2=[]
 
     tt1w=0 #team 1 win total
     tt2w=0 #team 2 win total
@@ -24,7 +40,7 @@ def simulation(obp1,obp2,n):
         tw1=0 #team 1 win
         tw2=0 #team 2 win
 
-        g=truegamesim(obp1,obp2) #assign function truegame to variable g
+        g=truegamesim(team1,team2) #assign function truegame to variable g
         #run g (truegamesim function)
 
         #team 1 stats per game
@@ -35,15 +51,23 @@ def simulation(obp1,obp2,n):
         B3t1=g[5]
         HRt1=g[6]
         LOBt1=g[7]
+        Kt1=g[8]
+        GOt1=g[9]
+        FOt1=g[10]
+        PCt1=g[11]
 
         #team 2 stats per game
-        RUNt2=g[8]
-        BBt2=g[9]
-        B1t2=g[10]
-        B2t2=g[11]
-        B3t2=g[12]
-        HRt2=g[13]
-        LOBt2=g[14]
+        RUNt2=g[12]
+        BBt2=g[13]
+        B1t2=g[14]
+        B2t2=g[15]
+        B3t2=g[16]
+        HRt2=g[17]
+        LOBt2=g[18]
+        Kt2=g[19]
+        GOt2=g[20]
+        FOt2=g[21]
+        PCt2=g[22]
 
         if g[0]==1: #if 1 is returned from that run
             tw1=1 #then team 1 won so give them 1
@@ -62,6 +86,10 @@ def simulation(obp1,obp2,n):
         B3total1=B3total1+[B3t1]
         HRtotal1=HRtotal1+[HRt1]
         LOBtotal1=LOBtotal1+[LOBt1]
+        Ktotal1=Ktotal1+[Kt1]
+        GOtotal1=GOtotal1+[GOt1]
+        FOtotal1=FOtotal1+[FOt1]
+        PCtotal1=PCtotal1+[PCt1]
 
         #total team 2 statistics
         RUNtotal2=RUNtotal2+[RUNt2]
@@ -71,10 +99,15 @@ def simulation(obp1,obp2,n):
         B3total2=B3total2+[B3t2]
         HRtotal2=HRtotal2+[HRt2]
         LOBtotal2=LOBtotal2+[LOBt2]
+        Ktotal2=Ktotal2+[Kt2]
+        GOtotal2=GOtotal2+[GOt2]
+        FOtotal2=FOtotal2+[FOt2]
+        PCtotal2=PCtotal2+[PCt2]
 
 
-    print("Team 1 won", tt1w, "out of",n,"games. Which is",round(float(tt1w/n)*100,2),"percent of games played.")
-    print("Team 2 won", tt2w, "out of",n,"games. Which is",round(float(tt2w/n)*100,2),"percent of games played.")
-    print("Team 1:",int(sum(RUNtotal1)/n),"R/G,",round(float((sum(B1total1)+sum(B2total1)+sum(B3total1)+sum(HRtotal1))/n),2),"H/G,",round(float(sum(BBtotal1)/n),2),"BB/G,",round(float(sum(B1total1)/n),2),"1B/G,",round(float(sum(B2total1)/n),2),"2B/G,",round(float(sum(B3total1)/n),2),"3B/G,",round(float(sum(HRtotal1)/n),2),"HR/G, and left",int(sum(LOBtotal1)/n),"men on base per game.")
-    print("Team 2:",int(sum(RUNtotal2)/n),"R/G,",round(float((sum(B1total2)+sum(B2total2)+sum(B3total2)+sum(HRtotal2))/n),2),"H/G,",round(float(sum(BBtotal2)/n),2),"BB/G,",round(float(sum(B1total2)/n),2),"1B/G,",round(float(sum(B2total2)/n),2),"2B/G,",round(float(sum(B3total2)/n),2),"3B/G,",round(float(sum(HRtotal2)/n),2),"HR/G, and left",int(sum(LOBtotal2)/n),"men on base per game.")
-
+    print(team1name, "won", tt1w, "out of",n,"games. Which is",round(float(tt1w/n)*100,2),"percent of games played.")
+    print(team2name, "won", tt2w, "out of",n,"games. Which is",round(float(tt2w/n)*100,2),"percent of games played.")
+    print(team1name,":",int(sum(RUNtotal1)/n),"R/G,",round(float((sum(B1total1)+sum(B2total1)+sum(B3total1)+sum(HRtotal1))/n),2),"H/G,",round(float(sum(BBtotal1)/n),2),"BB/G,",round(float(sum(B1total1)/n),2),"1B/G,",round(float(sum(B2total1)/n),2),"2B/G,",round(float(sum(B3total1)/n),2),"3B/G,",round(float(sum(HRtotal1)/n),2),"HR/G, and left",int(sum(LOBtotal1)/n),"men on base per game.")
+    print(team1name,":",round(float(sum(Ktotal1)/n),2),"K/G",round(float(sum(GOtotal1)/n),2),"GO/G",round(float(sum(FOtotal1)/n),2),"FO/G",round(float(sum(PCtotal1)/n),2),"Pitches/G.")
+    print(team2name,":",int(sum(RUNtotal2)/n),"R/G,",round(float((sum(B1total2)+sum(B2total2)+sum(B3total2)+sum(HRtotal2))/n),2),"H/G,",round(float(sum(BBtotal2)/n),2),"BB/G,",round(float(sum(B1total2)/n),2),"1B/G,",round(float(sum(B2total2)/n),2),"2B/G,",round(float(sum(B3total2)/n),2),"3B/G,",round(float(sum(HRtotal2)/n),2),"HR/G, and left",int(sum(LOBtotal2)/n),"men on base per game.")
+    print(team2name,":",round(float(sum(Ktotal2)/n),2),"K/G",round(float(sum(GOtotal2)/n),2),"GO/G",round(float(sum(FOtotal2)/n),2),"FO/G",round(float(sum(PCtotal2)/n),2),"Pitches/G.")
