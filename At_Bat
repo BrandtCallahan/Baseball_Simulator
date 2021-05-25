@@ -1,0 +1,667 @@
+def AtBat(obp,whip):
+    
+    #obp=team[0]
+    #whip=team[1]
+    
+    strike=0
+    ball=0
+    pitchnum=0
+    out=0
+    ob=0
+    count=[ball]+[strike]
+    abpitchcount=0
+    strikeout=0
+    groundout=0
+    flyout=0
+    walk=0
+    hit=0
+    
+    pitchlist=[]
+    swinglist=[]
+    contactlist=[]
+    fairlist=[]
+    outcomelist=[]
+    
+    ab=[]
+    aboutcome=[]
+    
+    while (ball < 4 and strike < 3) and (out < 1 and ob < 1):
+    
+        pitch=(uniform(0,3)) #ball/strike
+        swing=(uniform(0,1)) #swing/no swing
+        contact=(uniform(0,1)) #contact/miss
+        fair=(uniform(0,1)) #fair/foul
+        outcome=uniform(0,1) #hit/out
+        
+        #need to adjust for counts
+        
+        umperror=0.1
+        
+        #These percentages were found online
+        
+        bat=0.75 #no swing perc.
+        whiff=0.2 #swing and miss perc.
+        inplay=0.39 #foul perc.
+        
+        bat01=0.53 #no swing perc.
+        whiff01=0.22 #swing and miss perc.
+        inplay01=0.38 #foul perc.
+        
+        bat02=0.5 #no swing perc.
+        whiff02=0.25 #swing and miss perc.
+        inplay02=0.39 #foul perc.
+        
+        bat10=0.59 #no swing perc.
+        whiff10=0.19 #swing and miss perc.
+        inplay10=0.39 #foul perc.
+        
+        bat11=0.47 #no swing perc.
+        whiff11=0.2 #swing and miss perc.
+        inplay11=0.39 #foul perc.
+        
+        bat12=0.42 #no swing perc.
+        whiff12=0.22 #swing and miss perc.
+        inplay12=0.39 #foul perc.
+        
+        bat20=0.61 #no swing perc.
+        whiff20=0.15 #swing and miss perc.
+        inplay20=0.4 #foul perc.
+        
+        bat21=0.41 #no swing perc.
+        whiff21=0.17 #swing and miss perc.
+        inplay21=0.4 #foul perc.
+        
+        bat22=0.34 #no swing perc.
+        whiff22=0.19 #swing and miss perc.
+        inplay22=0.4 #foul perc.
+        
+        bat30=0.94 #no swing perc.
+        whiff30=0.12 #swing and miss perc.
+        inplay30=0.41 #foul perc.
+        
+        bat31=0.45 #no swing perc.
+        whiff31=0.13 #swing and miss perc.
+        inplay31=0.4 #foul perc.
+        
+        bat32=0.26 #no swing perc.
+        whiff32=0.15 #swing and miss perc.
+        inplay32=0.41 #foul perc.
+        
+        pitchnum=1
+        
+        if count == [0,0]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat: #swing
+                    if contact < whiff: #miss
+                        strike=strike+1
+                    elif contact >= whiff: #contact
+                        if fair < inplay: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat: #swing
+                    if contact < whiff: #miss
+                        strike=strike+1
+                    elif contact >= whiff: #contact
+                        if fair < inplay: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [0,1]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat01: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat01: #swing
+                    if contact < whiff01: #miss
+                        strike=strike+1
+                    elif contact >= whiff01: #contact
+                        if fair < inplay01: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay01: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat01: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat01: #swing
+                    if contact < whiff01: #miss
+                        strike=strike+1
+                    elif contact >= whiff01: #contact
+                        if fair < inplay01: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay01: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+            
+        if count == [0,2]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat02: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat02: #swing
+                    if contact < whiff02: #miss
+                        strike=strike+1
+                    elif contact >= whiff02: #contact
+                        if fair < inplay02: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay02: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat02: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat02: #swing
+                    if contact < whiff02: #miss
+                        strike=strike+1
+                    elif contact >= whiff02: #contact
+                        if fair < inplay02: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay02: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [1,0]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat10: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat10: #swing
+                    if contact < whiff10: #miss
+                        strike=strike+1
+                    elif contact >= whiff10: #contact
+                        if fair < inplay10: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay10: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat10: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat10: #swing
+                    if contact < whiff10: #miss
+                        strike=strike+1
+                    elif contact >= whiff10: #contact
+                        if fair < inplay10: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay10: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+            
+        if count == [1,1]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat11: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat11: #swing
+                    if contact < whiff11: #miss
+                        strike=strike+1
+                    elif contact >= whiff11: #contact
+                        if fair < inplay11: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay11: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat11: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat11: #swing
+                    if contact < whiff11: #miss
+                        strike=strike+1
+                    elif contact >= whiff11: #contact
+                        if fair < inplay11: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay11: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [1,2]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat12: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat12: #swing
+                    if contact < whiff12: #miss
+                        strike=strike+1
+                    elif contact >= whiff12: #contact
+                        if fair < inplay12: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay12: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat12: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat12: #swing
+                    if contact < whiff12: #miss
+                        strike=strike+1
+                    elif contact >= whiff12: #contact
+                        if fair < inplay12: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay12: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [2,0]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat20: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat20: #swing
+                    if contact < whiff20: #miss
+                        strike=strike+1
+                    elif contact >= whiff20: #contact
+                        if fair < inplay20: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay20: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat20: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat20: #swing
+                    if contact < whiff20: #miss
+                        strike=strike+1
+                    elif contact >= whiff20: #contact
+                        if fair < inplay20: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay20: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [2,1]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat21: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat21: #swing
+                    if contact < whiff21: #miss
+                        strike=strike+1
+                    elif contact >= whiff21: #contact
+                        if fair < inplay21: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay21: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat21: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat21: #swing
+                    if contact < whiff21: #miss
+                        strike=strike+1
+                    elif contact >= whiff21: #contact
+                        if fair < inplay21: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay21: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [2,2]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat22: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat22: #swing
+                    if contact < whiff22: #miss
+                        strike=strike+1
+                    elif contact >= whiff22: #contact
+                        if fair < inplay22: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay22: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat22: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat22: #swing
+                    if contact < whiff22: #miss
+                        strike=strike+1
+                    elif contact >= whiff22: #contact
+                        if fair < inplay22: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay22: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+            
+        if count == [3,0]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat30: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat30: #swing
+                    if contact < whiff30: #miss
+                        strike=strike+1
+                    elif contact >= whiff30: #contact
+                        if fair < inplay30: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay30: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat30: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat30: #swing
+                    if contact < whiff30: #miss
+                        strike=strike+1
+                    elif contact >= whiff30: #contact
+                        if fair < inplay30: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay30: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [3,1]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat31: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat31: #swing
+                    if contact < whiff31: #miss
+                        strike=strike+1
+                    elif contact >= whiff31: #contact
+                        if fair < inplay31: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay31: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat31: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat31: #swing
+                    if contact < whiff31: #miss
+                        strike=strike+1
+                    elif contact >= whiff31: #contact
+                        if fair < inplay31: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay31: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        if count == [3,2]:
+            if pitch < whip: #ball
+                if swing <= umperror: #ump calls ball strike
+                    strike=strike+1
+                elif swing > umperror and swing < bat32: #no swing
+                    ball=ball+1
+                elif swing > umperror and swing >= bat32: #swing
+                    if contact < whiff32: #miss
+                        strike=strike+1
+                    elif contact >= whiff32: #contact
+                        if fair < inplay32: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay32: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+
+            elif pitch >= whip: #strike
+                if swing <= umperror: #ump calls strike ball
+                    ball=ball+1
+                elif swing > umperror and swing < bat32: #no swing
+                    strike=strike+1
+                elif swing > umperror and swing >= bat32: #swing
+                    if contact < whiff32: #miss
+                        strike=strike+1
+                    elif contact >= whiff32: #contact
+                        if fair < inplay32: #foul
+                            if count[1] < 2:
+                                strike=strike+1
+                            elif count[1] == 2:
+                                strike=strike+0
+                        elif fair >= inplay32: #fair
+                            if outcome > obp:
+                                out=1
+                                ob=0
+                            if outcome <= obp:
+                                out=0
+                                ob=1
+        
+        count=[ball]+[strike]
+        
+        pitchlist=pitchlist+[pitch]
+        swinglist=swinglist+[swing]
+        contactlist=contactlist+[contact]
+        fairlist=fairlist+[fair]
+        outcomelist=outcomelist+[outcome]
+        
+        abpitchcount=abpitchcount+pitchnum
+        
+        aboutcome=[out,ob]
+        
+    if count[1] == 3:
+        strikeout = 1
+        out = 1
+    elif count[1] < 3 and aboutcome[0] == 1:
+        outtype=int(uniform(0,11))
+        if outtype <= 6:
+            groundout = 1
+            out = 1
+        elif outtype > 6:
+            flyout = 1
+            out = 1
+    elif count[0] == 4:
+        walk = 1
+        ob = 1
+    elif aboutcome[1] == 1:
+        hit = 1
+        ob = 1
+        
+    aboutcome=[out,ob]
+
+    ab=[strikeout,groundout,flyout,walk,hit,abpitchcount]
+  
+    
+    return ab
